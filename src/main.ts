@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import Component from 'vue-property-decorator'
 
 const defaultBackgroundColor = 'lightBlue'
 const defaultText = 'blue'

@@ -1,7 +1,7 @@
 <template>
     <section class="todos">
         <h3>TODOS</h3>
-        <form id="todoform" >
+        <form id="todoform" v-on:submit.prevent="addTodo()">
             <div>
                 <input type="text" name="content"
                     id="content" placeholder="i.e. compléter le TP"
@@ -16,46 +16,49 @@
     <section>
         <h3>TODO LIST</h3>
         <div class="list" id="todo-list">
+            <ul>
+                <li v-for="(todo) in todos" :key="todo.createdAt">
+                    {{ todo.content }} - {{ todo.createdAt }}
+                    <button class="delete" @click="removeTodo(todo)">Delete</button>
+                </li>
+            </ul>
             
         </div>
     </section>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import { ref, onMounted, computed, watch, defineComponent } from 'vue'
+import { Options, Vue } from 'vue-class-component'
 import Todo from '@/types/todo'
 
 @Options({
-    props: {
-        input_content: String,
-    },
-    setup() {
-        const input_content = ref('')
-        const todos = ref<Todo[]>([
-            {
-            content: input_content.value,
-            createdAt: new Date().getTime()
-            }
-        ])
-        
-        const todos_asc = computed(() => todos.value.sort((a,b) =>{
-	        return a.createdAt - b.createdAt
-        }))
-
-        watch(todos, (newVal) => {
-            localStorage.setItem('todos', JSON.stringify(newVal))
-            }, {deep: true})
-
-        return {todos, input_content, todos_asc}
-    },
-    components: {}
+  props: {
+    input_content:String,
+    todos:[]
+  },
+  components: {}
 })
+
 
 export default class Todos extends Vue {
     input_content = '';
-    todos = [];
+    todos:Todo[] = [];
 
+    addTodo(): void {
+        if(this.input_content.trim() === ''){return}
+        this.todos.push({
+            content: this.input_content,
+            createdAt: new Date().getTime()
+        })
+        this.input_content='';
+        localStorage.setItem('todos', JSON.stringify(this.todos))
+        
+        console.log(localStorage.getItem('todos'))
+    }
+
+    removeTodo(todo:Todo){
+        this.todos.filter((t) => t !== todo)
+    }
     
 }
 </script>
