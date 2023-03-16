@@ -18,6 +18,7 @@ import Todos from '@/components/Todos.vue';
   props: {
     message: String,
   },
+  components: {Todos}
 })
 export default class HomeView extends Vue {
   message = "test";
