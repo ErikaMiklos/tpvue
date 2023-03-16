@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <p v-if="visible">Maintenant vous me voyez: {{ message }}</p>
+    <button v-on:click="foo()">
+      ok
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
 @Options({
-  components: {
-    HelloWorld,
+  props: {
+    message: String,
   },
 })
-export default class HomeView extends Vue {}
+export default class HomeView extends Vue {
+  message = "test";
+  visible = true;
+  foo(){
+    this.visible = !this.visible;
+  }
+}
 </script>
