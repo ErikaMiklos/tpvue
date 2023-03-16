@@ -1,6 +1,7 @@
 interface Todo {
     content: string;
-    createdAt: number;
+    id: number;
+    createdAt: Date;
 }
 
 export default Todo
