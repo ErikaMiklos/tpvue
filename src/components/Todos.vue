@@ -70,4 +70,11 @@ export default class Todos extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+li {
+    margin: 1em;
+}
+
+#date {
+    margin: 1em;
+}
 </style>
