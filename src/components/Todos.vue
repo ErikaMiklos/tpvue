@@ -57,7 +57,7 @@ export default class Todos extends Vue {
     }
 
     removeTodo(todo:Todo){
-        this.todos.filter((t) => t !== todo)
+        this.todos = this.todos.filter((t) => t !== todo)
     }
     
 }
