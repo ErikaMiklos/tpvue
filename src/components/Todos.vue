@@ -19,7 +19,7 @@
         <h3>TODO LIST</h3>
         <div class="list" id="todo-list">
             <ul>
-                <li v-for="(todo) in todos" :key="todo.id">
+                <li v-for="(todo) in todosSortie" :key="todo.id">
                     {{ todo.content }} - {{ todo.createdAt }}
                     <button class="delete" @click="removeTodo(todo)">Delete</button>
                 </li>
@@ -37,7 +37,8 @@ import Todo from '@/types/todo'
   props: {
     input_content:String,
     date_content:Date,
-    todos:[]
+    todos:[],
+    todosSortie:[]
   },
   components: {}
 })
@@ -47,6 +48,7 @@ export default class Todos extends Vue {
     input_content = '';
     date_content = new Date;
     todos:Todo[] = [];
+    todosSortie:Todo[] = [];
 
     addTodo(): void {
         if(this.input_content.trim() === ''){return}
@@ -57,6 +59,7 @@ export default class Todos extends Vue {
         })
         this.input_content = '';
         this.date_content = new Date;
+        this.sortirTodos();
         //localStorage.setItem('todos', JSON.stringify(this.todos))
         //console.log(localStorage.getItem('todos'))
     }
@@ -64,12 +67,20 @@ export default class Todos extends Vue {
     removeTodo(todo:Todo){
         this.todos = this.todos.filter((t) => t !== todo)
     }
+
+    sortirTodos(){
+        this.todosSortie = this.todos.sort((a:Todo, b:Todo) => b.id - a.id)
+    }
     
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#content {
+min-width: 400px;
+}
+
 li {
     margin: 1em;
 }
