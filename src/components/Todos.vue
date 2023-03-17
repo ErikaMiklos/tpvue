@@ -17,6 +17,13 @@
     </section>
     <section>
         <h3>TODO LIST</h3>
+        <div>
+            <input type="text" name="recherche"
+                id="recherche" placeholder="recherche par keyword"
+                v-model="input_recherche"
+            />
+            <button class="recherche" @click="recherche()">Recherche</button>
+        </div>
         <div class="list" id="todo-list">
             <ul>
                 <li v-for="(todo) in todosSortie" :key="todo.id">
@@ -38,7 +45,8 @@ import Todo from '@/types/todo'
     input_content:String,
     date_content:Date,
     todos:[],
-    todosSortie:[]
+    todosSortie:[],
+    input_recherche:String
   },
   components: {}
 })
@@ -49,6 +57,7 @@ export default class Todos extends Vue {
     date_content = new Date;
     todos:Todo[] = [];
     todosSortie:Todo[] = [];
+    input_recherche = '';
 
     addTodo(): void {
         if(this.input_content.trim() === ''){return}
@@ -65,11 +74,19 @@ export default class Todos extends Vue {
     }
 
     removeTodo(todo:Todo){
-        this.todos = this.todos.filter((t) => t !== todo)
+        this.todos = this.todos.filter((t) => t !== todo);
+        this.todosSortie = this.todos;
     }
 
     sortirTodos(){
         this.todosSortie = this.todos.sort((a:Todo, b:Todo) => b.id - a.id)
+    }
+
+    recherche(){
+        if(this.todos.length > 0){
+            this.todosSortie = this.todos.filter((t) => t.content.includes(this.input_recherche));
+            this.input_recherche = '';
+        }
     }
     
 }
